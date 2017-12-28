@@ -18,42 +18,47 @@
 
 
 <ion-content padding>
-  <h1>{{nome_usuario}}</h1>
-  <ion-card>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card *ngFor="let filme of lista_movies">
     <ion-item>
       <ion-avatar item-start>
         <img src="assets/images/marty-avatar.png">
+        <!-- filme.backdrop_path -->
       </ion-avatar>
-      <h2>Lucas Jovencio</h2>
-      <p>November 5, 1955</p>
+      <h2>{{filme.original_title}}</h2>
+      <p>{{filme.release_date}}</p>
     </ion-item>
 
-    <img src="assets/images/advance-card-bttf.png">
+    <img [src]="'https://image.tmdb.org/t/p/w300/'+filme.backdrop_path">
 
     <ion-card-content>
-      <p>Estou criando um app incrivel.</p>
+      <p>{{filme.overview}}</p>
     </ion-card-content>
 
     <ion-row>
       <ion-col>
         <button ion-button icon-left clear small>
           <ion-icon name="thumbs-up"></ion-icon>
-          <div>12 Likes</div>
+          <div>{{objeto_feed.qntd_likes}}</div>
         </button>
       </ion-col>
       <ion-col>
         <button ion-button icon-left clear small>
           <ion-icon name="text"></ion-icon>
-          <div>4 Comments</div>
+          <div>{{objeto_feed.qntd_coments}}</div>
         </button>
       </ion-col>
       <ion-col center text-center>
         <ion-note>
-          11h ago
+          {{objeto_feed.time_comen}}
         </ion-note>
       </ion-col>
     </ion-row>
-
+    <button ion-button block (click)="abrirDetalhes(filme)">Detalhes</button>
   </ion-card>
-
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
